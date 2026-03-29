@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>老年社会工作伦理案例库 | 专业实践指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Helvetica, 'Noto Sans', sans-serif;
+            background: #fef7e8;  /* 温暖柔和背景 */
+            color: #2c2418;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* 容器 */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+        }
+
+        /* 头部 */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 3px solid #d9b48b;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            color: #8b5a2b;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .header h1 span {
+            background: #e9d5b5;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            vertical-align: middle;
+        }
+        .subhead {
+            font-size: 1.1rem;
+            color: #6b4c2c;
+            margin-top: 0.75rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .ethics-badge {
+            background: #f0e2cf;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            display: inline-block;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        /* 筛选栏 */
+        .filters {
+            background: #fff6ea;
+            padding: 1.2rem 1.5rem;
+            border-radius: 32px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #f0e0ca;
+        }
+        .search-box {
+            display: flex;
+            margin-bottom: 1.2rem;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #e2cfb5;
+            border-radius: 48px;
+            font-size: 1rem;
+            background: white;
+            outline: none;
+            transition: 0.2s;
+        }
+        .search-box input:focus {
+            border-color: #c29a6b;
+            box-shadow: 0 0 0 2px rgba(194,154,107,0.2);
+        }
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+        }
+        .tag-label {
+            font-weight: 600;
+            color: #7a582e;
+            margin-right: 0.3rem;
+        }
+        .tag-btn {
+            background: #f2e5d6;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #4e3a24;
+            font-weight: 500;
+        }
+        .tag-btn.active {
+            background: #c29a6b;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tag-btn:hover {
+            background: #dbbc97;
+            color: #2c2418;
+        }
+        .reset-btn {
+            background: #e2cfb5;
+            color: #5c3e1f;
+            margin-left: 0.5rem;
+        }
+        .stats {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: #8f734b;
+            text-align: right;
+        }
+
+        /* 案例卡片网格 */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+        .case-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #f3e4d2;
+            display: flex;
+            flex-direction: column;
+        }
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px rgba(0,0,0,0.08);
+            border-color: #e5ceb0;
+        }
+        .card-content {
+            padding: 1.5rem;
+            flex: 1;
+        }
+        .card-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #8b5a2b;
+            margin-bottom: 0.6rem;
+            line-height: 1.3;
+        }
+        .card-desc {
+            color: #5a4a36;
+            margin: 0.8rem 0;
+            font-size: 0.95rem;
+        }
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0 0.8rem;
+        }
+        .tag {
+            background: #f1e8dd;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #7a582e;
+            letter-spacing: 0.3px;
+        }
+        .btn-detail {
+            background: transparent;
+            border: 1.5px solid #d9b48b;
+            padding: 0.5rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: #8b5a2b;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.8rem;
+            width: fit-content;
+            font-size: 0.85rem;
+        }
+        .btn-detail:hover {
+            background: #d9b48b;
+            color: white;
+            border-color: #d9b48b;
+        }
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            background: #fff3e6;
+            border-radius: 48px;
+            color: #a47e54;
+            grid-column: 1 / -1;
+        }
+
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: #fffcf7;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            border-radius: 32px;
+            overflow-y: auto;
+            padding: 1.8rem 2rem;
+            position: relative;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.2);
+            border: 1px solid #eedbc8;
+        }
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            color: #a67c52;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .modal-close:hover {
+            color: #5c3e1f;
+        }
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #8b5a2b;
+            margin-bottom: 1.2rem;
+            padding-right: 2rem;
+        }
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+        .modal-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a57248;
+            border-left: 4px solid #d9b48b;
+            padding-left: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+        .modal-section p, .modal-section ul {
+            color: #2e2a24;
+            margin-left: 0.5rem;
+            line-height: 1.5;
+        }
+        .modal-section ul {
+            padding-left: 1.5rem;
+        }
+        .reference {
+            background: #f9efE4;
+            padding: 0.8rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #7c5e3c;
+            margin-top: 1rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid #ecdbba;
+            color: #b49063;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                padding: 1rem;
+            }
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 1.5rem;
+            }
+            .modal-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>
+            📚 老年社会工作伦理案例库
+            <span>专业·反思·实践</span>
+        </h1>
+        <div class="subhead">基于社会工作伦理守则 | 聚焦老年服务中的伦理冲突与正确解决路径</div>
+        <div class="ethics-badge">✨ NASW伦理准则 & 中国社工伦理指引 融合参考</div>
+    </div>
+
+    <div class="filters">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 搜索案例标题、情境或伦理冲突..." autocomplete="off">
+        </div>
+        <div class="tag-group">
+            <span class="tag-label">📌 伦理主题筛选：</span>
+            <div id="filterTagsContainer" class="tag-group" style="display: inline-flex; flex-wrap: wrap; gap: 0.5rem;"></div>
+            <button id="resetFilterBtn" class="tag-btn reset-btn">重置全部</button>
+        </div>
+        <div class="stats" id="statsInfo">加载案例中...</div>
+    </div>
+
+    <div id="casesGrid" class="cases-grid">
+        <!-- 动态渲染卡片 -->
+    </div>
+    <footer>
+        ⚖️ 本案例库供教育及专业参考，伦理决策需结合具体情境及督导意见。<br>
+        依据《社会工作伦理守则》及老年社会工作最佳实践构建，尊重多元文化。
+    </footer>
+</div>
+
+<!-- 模态框 -->
+<div id="caseModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <div id="modalDynamicContent">
+            <!-- 动态填充案例详情 -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- 案例数据 (10个真实伦理困境 + 正确解决方式) ----------
+    const casesData = [
+        {
+            id: 1,
+            title: "自主权之争：独居老人拒绝居家服务",
+            shortDesc: "轻度认知障碍的张爷爷坚持独自生活，子女强烈要求社工强制安排居家照护，老人拒绝所有协助。",
+            fullSituation: "张爷爷，82岁，独居，最近跌倒过两次但无重伤。经评估有轻度认知障碍，但可以表达意愿。子女担心安全，要求社工介入24小时陪护，张爷爷认为子女不尊重他，拒绝任何外人进入家门。",
+            ethicalIssues: "案主自决 vs 家长主义；老人安全与自主权的平衡；家庭成员意愿与老人意愿冲突。",
+            resolution: "1. 重新评估老人决策能力，使用标准化工具（如 MoCA）并尊重其残余自主权。2. 与老人建立信任关系，探讨最小限制的备选方案（如应急响应设备、每日电话关怀）。3. 召开家庭会议，向子女解释社工伦理尊重老人自决的原则，共同制定渐进式安全计划。4. 若无直接危险，不可强制服务；持续评估并提供“低门槛”支持，尊重其风险选择的权利。",
+            principles: ["自主权", "最小限制", "家庭协调"],
+            reference: "NASW 标准1.02 自决；中国社工伦理 3.2 尊重服务对象自决权。"
+        },
+        {
+            id: 2,
+            title: "保密义务与虐待报告",
+            shortDesc: "护理员疑似言语辱骂，老人请求社工不要报告，担心报复。",
+            fullSituation: "李奶奶在养老院被护理员经常大声呵斥“老不死的”，社工探访时她哭泣着透露此事，但恳求社工不要声张，因为害怕护理员会更恶劣对待。",
+            ethicalIssues: "保密与保护生命/免于伤害的冲突；强制报告义务；虐待弱势成人。",
+            resolution: "1. 向老人解释法律规定：社工必须报告虐待嫌疑以保护其安全，同时争取老人理解与支持。2. 立即按照机构及所在地法规，向养老院管理层和成人保护服务部门报告，不拖延。3. 采取保护措施（如暂时调整照护人员、安排临时安置）防止报复。4. 后续为老人提供心理支持，并倡导机构建立更完善的监督机制。",
+            principles: ["保护生命", "强制报告", "诚信"],
+            reference: "NASW 1.07 隐私与保密，例外情况；老年福利法。"
+        },
+        {
+            id: 3,
+            title: "稀缺资源分配：两个老人一个床位",
+            shortDesc: "社区日间照护名额仅剩一个，王阿姨经济极度困难，赵伯伯社会支持薄弱，双方都需要。",
+            fullSituation: "社区日间照护中心只有一个免费资助名额，王阿姨低保独居且健康差，赵伯伯虽有退休金但唯一儿子在外地，两人均符合条件，社工面临分配难题。",
+            ethicalIssues: "分配正义；公平获取服务；资源稀缺伦理。",
+            resolution: "1. 依据机构制定的客观优先等级标准（评估维度：经济状况、失能程度、社会支持、紧急风险）进行评分。2. 增加透明讨论，邀请督导及伦理委员会参与决策，确保无偏见。3. 同时为落选者链接其他替代资源（如志愿者探访、慈善资助）。4. 倡导增加资源，并持续追踪落选者状况，避免因分配导致伤害。",
+            principles: ["分配正义", "公平", "透明程序"],
+            reference: "社会工作伦理关于资源分配; 罗尔斯正义原则视角。"
+        },
+        {
+            id: 4,
+            title: "认知障碍长者独居安全vs家属强制入住",
+            shortDesc: "78岁轻度阿尔茨海默病老人想要独自居住，家属坚决要求送入护理机构。",
+            fullSituation: "陈阿姨诊断早期阿尔茨海默病，尚能自理但偶尔忘记关煤气。儿子认为非常危险，打算违背母亲意愿强行送入养老院，陈阿姨激烈反对。",
+            ethicalIssues: "认知能力下降时的自决限度；安全保护与尊重意愿冲突。",
+            resolution: "1. 进行专业能力评估，明确其具体风险领域与保留能力。2. 探索折中方案：如日间照料 + 居家安全改造（智能煤气切断、定位手环）。3. 协助家庭探索法律授权（持续性代理权或监护申请）作为最后手段，同时尽力尊重老人倾向。4. 通过沟通让老人理解家属关切，共同签署安全协议，维持最大程度自主。",
+            principles: ["自决", "安全与福祉平衡", "家庭赋能"],
+            reference: "支持决策模式；中国老年人权益保障法。"
+        },
+        {
+            id: 5,
+            title: "临终不复苏意愿与家属指令矛盾",
+            shortDesc: "90岁晚期癌症老人明确拒绝抢救及鼻饲，子女坚持“不惜一切代价”。",
+            fullSituation: "方爷爷在安宁疗护病房意识清楚，签署了DNR（不复苏）和拒绝营养支持意愿书。但女儿要求必须全力救治并插管，指责社工不孝。",
+            ethicalIssues: "尊重自主权 vs 家属意愿；临终决定伦理；生前预嘱效力。",
+            resolution: "1. 核查老人是否有决策能力，确认意愿书合法有效。2. 召集医疗社工、医生与家庭会议，以患者为中心解释伦理原则和医学事实，强调尊重患者自主是核心价值。3. 提供哀伤辅导，协助家属接纳。4. 若家属仍干扰，寻求伦理委员会及法律支持捍卫老人决定。",
+            principles: ["自主权", "临终尊严", "患者权利"],
+            reference: "安宁缓和医疗条例；NASW 标准1.02(c)。"
+        },
+        {
+            id: 6,
+            title: "多重关系困境：接受老人的礼物",
+            shortDesc: "服务对象为表达感谢送给社工昂贵玉镯，社工陷入专业界限两难。",
+            fullSituation: "独居刘奶奶受到社工小陈长期探访后，将祖传玉镯赠与小陈以表感激，小陈若拒绝老人感到被嫌弃，若接受则违反专业边界。",
+            ethicalIssues: "双重/多重关系；收受礼物界限；专业关系纯洁性。",
+            resolution: "1. 先感谢老人心意，温和解释社工职业伦理规定不能接受贵重礼物。2. 替代方式：建议老人可将玉镯赠送给孙辈或留作家传，社工可以接受一个手工贺卡或小盆栽。3. 若老人坚持且拒绝退回可能导致情感伤害，可以机构名义接收转赠给老人活动室，并记录说明。4. 持续督导讨论，防止未来边界模糊。",
+            principles: ["专业界限", "诚信正直", "避免剥削"],
+            reference: "NASW 1.06 利益冲突；中国社工伦理 4.2。"
+        },
+        {
+            id: 7,
+            title: "文化敏感性与医疗建议冲突",
+            shortDesc: "藏族老人坚持使用藏药仪式，拒绝医院化疗方案。",
+            fullSituation: "卓玛奶奶罹患癌症，医生建议化疗，但老人认为必须返回家乡进行传统藏药治疗及宗教仪式，家属不知所措。",
+            ethicalIssues: "文化胜任力；健康自决 vs 最佳医学实践；尊重多元文化。",
+            resolution: "1. 尊重老人文化价值观，了解藏药传统在其精神信仰中的作用。2. 与医疗团队合作寻找整合方案：允许辅助传统仪式同时尝试低强度现代医学治疗，不强迫拒绝。3. 邀请文化协调员或宗教人士共同沟通，让老人知情选择。4. 如老人完全拒绝生物医学，尊重其知情拒绝权，提供安宁支持和文化适宜的照护计划。",
+            principles: ["文化谦逊", "自决权", "全人服务"],
+            reference: "NASW 标准1.05 文化能力与社会多样性。"
+        },
+        {
+            id: 8,
+            title: "过去虐待史报告伦理",
+            shortDesc: "老人向社工透露30年前曾虐待过亲生子女，现担心子女报复，要求保密。",
+            fullSituation: "82岁周爷爷在谈话中透露出当年酗酒后暴力对待儿子，虽然如今关系修复但内心愧疚，他要求社工绝对保密，害怕儿子知道后断绝往来。",
+            ethicalIssues: "保密原则 vs 潜在伤害或法律责任；过去的虐待是否触发报告义务；案主现在无风险。",
+            resolution: "1. 评估当前是否有儿童或弱势者处于风险中（无），不触发强制报告。2. 尊重保密性，不向任何人透露历史。3. 帮助老人处理罪恶感，提供心理辅导或修复性家庭对话建议（仅当老人同意）。4. 若发现现行风险再评估；同时澄清保密界限。",
+            principles: ["保密", "知情同意", "无害"],
+            reference: "保密例外一般针对现行风险；社工伦理守则1.07。"
+        },
+        {
+            id: 9,
+            title: "机构政策限制老人自主活动",
+            shortDesc: "养老院为防止跌倒禁止老人锁门且限制外出，活力老人感到被囚禁。",
+            fullSituation: "72岁身体尚好的孙爷爷入住某养老院，院方出于安全考虑规定房门不得反锁，且外出需家人书面申请，孙爷爷感觉尊严受损，情绪低落。",
+            ethicalIssues: "机构风险管控 vs 老人自由权；自治与安全；制度化歧视。",
+            resolution: "1. 评估老人的实际风险水平，倡导基于个人能力实施差异化政策。2. 与机构管理层协商，针对低风险老人开放自由门禁时段及私密空间。3. 社工协助孙爷爷及其他老人成立住民主席团，反馈意见。4. 推动机构从过度保护转向“积极冒险”伦理，平衡安全与自主。",
+            principles: ["自主权", "正常化", "倡导"],
+            reference: "积极冒险理念；老年社工倡导角色。"
+        },
+        {
+            id: 10,
+            title: "付费第三方要求透露老人信息",
+            shortDesc: "子女全额支付养老费用，要求社工提供父亲全部医疗及心理评估记录，老人不同意透露。",
+            fullSituation: "赵伯伯入住机构由儿子支付所有费用，但赵伯伯明确拒绝让儿子知道自己最近抑郁症诊断和用药记录，儿子却以“付款人有权知道”为由索要全部档案。",
+            ethicalIssues: "第三方付费者的知情权 vs 案主隐私权；保密及信息分享界限。",
+            resolution: "1. 向儿子解释社工保密伦理：老人是服务对象，即使第三方付费也不能违背知情同意。2. 获得老人书面同意后才可分享必要的基本信息（如整体健康进展，不涉及具体隐私细节）。3. 协助家庭沟通，让老人自行决定透露多少。4. 若老人拒绝提供任何信息，坚守保密立场，同时与机构政策对齐。",
+            principles: ["隐私保密", "案主中心", "专业责任"],
+            reference: "NASW 1.07(a) 隐私权；HIPAA隐私规则类比。"
+        }
+    ];
+
+    // 提取所有标签（去重）
+    function getAllTags() {
+        const tagSet = new Set();
+        casesData.forEach(c => {
+            c.principles.forEach(t => tagSet.add(t));
+        });
+        return Array.from(tagSet).sort();
+    }
+
+    // 渲染标签筛选按钮
+    function renderFilterTags(activeTag = null) {
+        const container = document.getElementById('filterTagsContainer');
+        const tags = getAllTags();
+        let html = '';
+        tags.forEach(tag => {
+            const activeClass = (activeTag === tag) ? 'active' : '';
+            html += `<button class="tag-btn ${activeClass}" data-filter-tag="${tag}">${tag}</button>`;
+        });
+        container.innerHTML = html;
+        // 绑定筛选事件
+        document.querySelectorAll('[data-filter-tag]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const selectedTag = btn.getAttribute('data-filter-tag');
+                const currentActive = document.querySelector('.tag-btn.active[data-filter-tag]');
+                if (currentActive && currentActive.getAttribute('data-filter-tag') === selectedTag) {
+                    // 如果已是激活，则重置
+                    resetFilters();
+                } else {
+                    applyFilters(selectedTag, document.getElementById('searchInput').value);
+                }
+            });
+        });
+    }
+
+    let currentTagFilter = null;
+    let currentSearchTerm = '';
+
+    function applyFilters(tagFilter, searchTerm) {
+        currentTagFilter = tagFilter;
+        currentSearchTerm = searchTerm;
+        // 更新按钮高亮
+        document.querySelectorAll('[data-filter-tag]').forEach(btn => {
+            const btnTag = btn.getAttribute('data-filter-tag');
+            if (currentTagFilter && btnTag === currentTagFilter) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+        renderCases();
+    }
+
+    function resetFilters() {
+        currentTagFilter = null;
+        currentSearchTerm = '';
+        document.getElementById('searchInput').value = '';
+        document.querySelectorAll('[data-filter-tag]').forEach(btn => btn.classList.remove('active'));
+        renderCases();
+    }
+
+    // 渲染卡片
+    function renderCases() {
+        const grid = document.getElementById('casesGrid');
+        let filtered = [...casesData];
+        
+        // 标签筛选
+        if (currentTagFilter) {
+            filtered = filtered.filter(c => c.principles.includes(currentTagFilter));
+        }
+        // 搜索筛选 (标题、短描述、完整情境、伦理冲突)
+        if (currentSearchTerm && currentSearchTerm.trim() !== '') {
+            const term = currentSearchTerm.trim().toLowerCase();
+            filtered = filtered.filter(c => 
+                c.title.toLowerCase().includes(term) ||
+                c.shortDesc.toLowerCase().includes(term) ||
+                c.fullSituation.toLowerCase().includes(term) ||
+                c.ethicalIssues.toLowerCase().includes(term)
+            );
+        }
+        
+        const stats = document.getElementById('statsInfo');
+        stats.innerText = `📋 共 ${filtered.length} 个案例 (总计 ${casesData.length})`;
+        
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div class="no-results">✨ 没有找到匹配的案例，试试其他筛选词或重置筛选 ✨</div>`;
+            return;
+        }
+        
+        let cardsHtml = '';
+        filtered.forEach(c => {
+            const tagSpans = c.principles.map(tag => `<span class="tag">${tag}</span>`).join('');
+            cardsHtml += `
+                <div class="case-card" data-id="${c.id}">
+                    <div class="card-content">
+                        <div class="card-title">${escapeHtml(c.title)}</div>
+                        <div class="card-desc">${escapeHtml(c.shortDesc)}</div>
+                        <div class="card-tags">${tagSpans}</div>
+                        <button class="btn-detail" data-id="${c.id}">📖 查看详细分析</button>
+                    </div>
+                </div>
+            `;
+        });
+        grid.innerHTML = cardsHtml;
+        
+        // 绑定详情按钮事件
+        document.querySelectorAll('.btn-detail').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                const caseItem = casesData.find(c => c.id === id);
+                if (caseItem) openModal(caseItem);
+            });
+        });
+    }
+    
+    // 简单防XSS
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+    
+    // 模态框显示详情
+    function openModal(caseData) {
+        const modal = document.getElementById('caseModal');
+        const modalContentDiv = document.getElementById('modalDynamicContent');
+        const principlesHtml = caseData.principles.map(p => `<span class="tag" style="background:#e9d5b5; margin-right:8px;">${p}</span>`).join('');
+        const resolutionSteps = caseData.resolution.replace(/\n/g, '<br>').replace(/[0-9]+\./g, match => `<strong>${match}</strong>`);
+        
+        modalContentDiv.innerHTML = `
+            <div class="modal-title">📌 ${escapeHtml(caseData.title)}</div>
+            <div class="modal-section">
+                <h4>📋 情境描述</h4>
+                <p>${escapeHtml(caseData.fullSituation)}</p>
+            </div>
+            <div class="modal-section">
+                <h4>⚡ 伦理冲突点</h4>
+                <p>${escapeHtml(caseData.ethicalIssues)}</p>
+            </div>
+            <div class="modal-section">
+                <h4>✅ 正确解决方式 (伦理决策行动)</h4>
+                <p>${resolutionSteps}</p>
+            </div>
+            <div class="modal-section">
+                <h4>🏷️ 相关伦理原则</h4>
+                <div>${principlesHtml}</div>
+            </div>
+            <div class="reference">
+                📖 参考依据：${escapeHtml(caseData.reference)}<br>
+                💡 基于社会工作伦理决策模型，强调保护案主福祉、尊重自决与正义。
+            </div>
+        `;
+        modal.style.display = 'flex';
+    }
+    
+    // 关闭模态框
+    function closeModal() {
+        const modal = document.getElementById('caseModal');
+        modal.style.display = 'none';
+    }
+    
+    // 初始化页面
+    function init() {
+        renderFilterTags();
+        renderCases();
+        // 搜索事件
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            applyFilters(currentTagFilter, e.target.value);
+        });
+        const resetBtn = document.getElementById('resetFilterBtn');
+        resetBtn.addEventListener('click', () => {
+            resetFilters();
+        });
+        // 模态框关闭
+        const modal = document.getElementById('caseModal');
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.querySelector('.modal-close').addEventListener('click', closeModal);
+    }
+    
+    init();
+</script>
+</body>
+</html>
